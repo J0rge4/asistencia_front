@@ -1,4 +1,7 @@
+
 <!DOCTYPE html>
+
+
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -8,49 +11,69 @@
 <body>
   <header>Panel del Alumno</header>
 
+
   <!-- Botón para regresar al menú principal -->
+
+
   <div style="margin: 1rem;">
     <button onclick="window.location.href='../index.html'" style="background-color:#c62828; color:white; padding:10px;">⏻ Salir</button>
   </div>
 
+
   <!-- Contenedor principal -->
+
+
   <div class="container">
     <h2>Consultar Asistencia</h2>
 
-    <!-- Campo de matrícula del alumno -->
-    <input type="text" id="matricula" placeholder="Tu matrícula">
-    
-    <!-- Botón para consultar -->
-    <button onclick="consultar()">Consultar</button>
 
-    <!-- Resultados de asistencia -->
-    <h3>Resultados</h3>
-    <ul id="resultado"></ul>
+<!-- Campo de matrícula del alumno -->
+<input type="text" id="matricula" placeholder="Tu matrícula">
+
+<!-- Botón para consultar -->
+<button onclick="consultar()">Consultar</button>
+
+<!-- Resultados de asistencia -->
+<h3>Resultados</h3>
+<ul id="resultado"></ul>
+
   </div>
 
+
 <!-- Script que maneja la consulta al backend -->
+
+
 <script>
-// Dirección base de la API (cámbiala si lo despliegas en Railway)
-const api = 'http://localhost:3000/api';
+// Dirección base de la API (reemplázala con tu URL real si es diferente)
+const api = 'https://asistenciabackend-production-f2de.up.railway.app/';
 
 // Función que consulta la asistencia de un alumno
 async function consultar() {
   const mat = document.getElementById('matricula').value.trim(); // obtiene matrícula del input
   if (!mat) return alert('Escribe tu matrícula'); // validación
 
-  // Hacemos la solicitud GET al backend para traer las asistencias
-  const res = await fetch(`${api}/asistencia/${mat}`);
-  const data = await res.json(); // convertimos la respuesta en JSON
+  try {
+    const res = await fetch(`${api}/asistencia/${mat}`);
+    if (!res.ok) throw new Error('No se pudo obtener los datos');
+    const data = await res.json();
 
-  // Mostramos los resultados en la lista <ul>
-  const ul = document.getElementById('resultado');
-  ul.innerHTML = ''; // limpiamos la lista primero
+    const ul = document.getElementById('resultado');
+    ul.innerHTML = '';
 
-  data.forEach(r => {
-    // por cada asistencia, mostramos fecha y si estuvo presente
-    ul.innerHTML += `<li>${r.fecha}: ${r.presente ? '✅ Presente' : '❌ Ausente'}</li>`;
-  });
+    if (data.length === 0) {
+      ul.innerHTML = '<li>No hay registros de asistencia.</li>';
+      return;
+    }
+
+    data.forEach(r => {
+      ul.innerHTML += <li>${r.fecha}: ${r.presente ? '✅ Presente' : '❌ Ausente'}</li>;
+    });
+  } catch (err) {
+    alert('Error al consultar asistencia: ' + err.message);
+  }
 }
 </script>
+
+
 </body>
 </html>
