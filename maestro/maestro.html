@@ -54,11 +54,11 @@
       const matricula = document.getElementById('matricula').value.trim();
       if (!nombre || !matricula) return alert('Faltan datos');
       try {
-        const res = await fetch(`${api}/registrar, { // URL correcta para registrar
+        const res = await fetch(`${api}/registrar`, { // URL corregida para registrar
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nombre, matricula })
-        }`);
+        });
         const data = await res.json();
         if (data.success) {
           alert('Registrado');
@@ -80,11 +80,11 @@
         presente: chk.checked
       }));
       try {
-        const res = await fetch(`${api}/pasarLista, { // URL correcta para guardar asistencia.  Crea esta ruta en tu backend.
+        const res = await fetch(`${api}/pasarLista`, { // URL corregida para pasar lista
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ lista, fecha })
-        }`);
+        });
         const data = await res.json();
         if (data.success) alert('Asistencia guardada');
         else alert('Error al guardar: ' + data.error); // Mostrar mensaje de error del servidor
@@ -97,9 +97,9 @@
       const mat = document.getElementById('matEliminar').value.trim();
       if (!mat) return alert('Ingresa una matrícula');
       try {
-        const res = await fetch(`${api}/${mat}, { // URL correcta para eliminar
+        const res = await fetch(`${api}/${mat}`, { // URL corregida para eliminar
           method: 'DELETE'
-        }`);
+        });
         const data = await res.json();
         if (data.success) {
           alert('Alumno eliminado');
@@ -114,3 +114,4 @@
   </script>
 </body>
 </html>
+
