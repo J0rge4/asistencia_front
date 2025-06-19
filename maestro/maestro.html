@@ -80,7 +80,7 @@
         presente: chk.checked
       }));
       try {
-        const res = await fetch('https://asistenciabackend-production-f2de.up.railway.app/api/alumnos/pasarLista', { // URL corregida para pasar lista
+        const res = await fetch('https://asistenciabackend-production-f2de.up.railway.app/api/asistencia/pasarLista', { // URL corregida para pasar lista
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ lista, fecha })
