@@ -1,0 +1,52 @@
+/* Estilo general del cuerpo del sitio */
+body {
+  font-family: sans-serif; /* Fuente limpia y sin serifas */
+  margin: 0;               /* Sin margen externo */
+  padding: 0;              /* Sin espacio interno */
+  background-color: #f2f2f2; /* Fondo gris claro */
+}
+
+/* Estilo para el encabezado principal de cada página */
+header {
+  background-color: #2e7d32; /* Verde oscuro */
+  color: white;              /* Texto en blanco */
+  padding: 1rem;             /* Espaciado interno */
+  text-align: center;        /* Centrado horizontalmente */
+  font-size: 1.5rem;         /* Tamaño de texto grande */
+}
+
+/* Contenedor principal para centrar y organizar el contenido */
+.container {
+  max-width: 600px;          /* Máximo ancho del contenedor */
+  margin: 2rem auto;         /* Centrado con margen superior/inferior */
+  background: white;         /* Fondo blanco */
+  padding: 2rem;             /* Espaciado interno */
+  border-radius: 10px;       /* Bordes redondeados */
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Sombra ligera */
+}
+
+/* Estilo para todos los botones */
+button {
+  padding: 10px 20px;        /* Espaciado interno */
+  font-size: 1rem;           /* Tamaño de letra estándar */
+  background-color: #43a047; /* Verde medio */
+  color: white;              /* Texto blanco */
+  border: none;              /* Sin borde */
+  border-radius: 5px;        /* Bordes redondeados */
+  cursor: pointer;           /* Manita al pasar el mouse */
+}
+
+/* Cambio de color al pasar el cursor sobre un botón */
+button:hover {
+  background-color: #388e3c; /* Verde más oscuro */
+}
+
+/* Estilo para todos los inputs (campos de texto y fecha) */
+input[type="text"],
+input[type="date"] {
+  display: block;            /* Que ocupe toda la línea */
+  margin: 1rem 0;            /* Espacio vertical entre inputs */
+  padding: 10px;             /* Espaciado interno */
+  width: 100%;               /* Ancho completo */
+  box-sizing: border-box;    /* Incluye padding y borde en el ancho */
+}
