@@ -1,7 +1,4 @@
-
 <!DOCTYPE html>
-
-
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -11,69 +8,58 @@
 <body>
   <header>Panel del Alumno</header>
 
-
   <!-- Botón para regresar al menú principal -->
-
-
   <div style="margin: 1rem;">
     <button onclick="window.location.href='../index.html'" style="background-color:#c62828; color:white; padding:10px;">⏻ Salir</button>
   </div>
 
-
   <!-- Contenedor principal -->
-
-
   <div class="container">
     <h2>Consultar Asistencia</h2>
 
+    <!-- Campo de matrícula del alumno -->
+    <input type="text" id="matricula" placeholder="Tu matrícula">
 
-<!-- Campo de matrícula del alumno -->
-<input type="text" id="matricula" placeholder="Tu matrícula">
+    <!-- Botón para consultar -->
+    <button onclick="consultar()">Consultar</button>
 
-<!-- Botón para consultar -->
-<button onclick="consultar()">Consultar</button>
-
-<!-- Resultados de asistencia -->
-<h3>Resultados</h3>
-<ul id="resultado"></ul>
-
+    <!-- Resultados de asistencia -->
+    <h3>Resultados</h3>
+    <ul id="resultado"></ul>
   </div>
 
+  <!-- Script que maneja la consulta al backend -->
+  <script>
+    // Dirección base de la API (reemplázala con tu URL real si es diferente)
+    const api = 'https://asistenciabackend-production-f2de.up.railway.app/';
 
-<!-- Script que maneja la consulta al backend -->
+    // Función que consulta la asistencia de un alumno
+    async function consultar() {
+      const mat = document.getElementById('matricula').value.trim(); // obtiene matrícula del input
+      if (!mat) return alert('Escribe tu matrícula'); // validación
 
+      try {
+        const res = await fetch(`${api}/api/asistencia/${mat}`);  // Asegúrate de que esta URL sea la correcta
+        if (!res.ok) throw new Error('No se pudo obtener los datos');
+        const data = await res.json();
 
-<script>
-// Dirección base de la API (reemplázala con tu URL real si es diferente)
-const api = 'https://asistenciabackend-production-f2de.up.railway.app/';
+        const ul = document.getElementById('resultado');
+        ul.innerHTML = '';
 
-// Función que consulta la asistencia de un alumno
-async function consultar() {
-  const mat = document.getElementById('matricula').value.trim(); // obtiene matrícula del input
-  if (!mat) return alert('Escribe tu matrícula'); // validación
+        if (data.length === 0) {
+          ul.innerHTML = '<li>No hay registros de asistencia.</li>';
+          return;
+        }
 
-  try {
-    const res = await fetch(`${api}/asistencia/${mat}`);
-    if (!res.ok) throw new Error('No se pudo obtener los datos');
-    const data = await res.json();
-
-    const ul = document.getElementById('resultado');
-    ul.innerHTML = '';
-
-    if (data.length === 0) {
-      ul.innerHTML = '<li>No hay registros de asistencia.</li>';
-      return;
+        // Agregar los resultados al ul
+        data.forEach(r => {
+          ul.innerHTML += `<li>${r.fecha}: ${r.presente ? '✅ Presente' : '❌ Ausente'}</li>`;  // Aquí estaba el error
+        });
+      } catch (err) {
+        alert('Error al consultar asistencia: ' + err.message);
+      }
     }
-
-    data.forEach(r => {
-      ul.innerHTML += <li>${r.fecha}: ${r.presente ? '✅ Presente' : '❌ Ausente'}</li>;
-    });
-  } catch (err) {
-    alert('Error al consultar asistencia: ' + err.message);
-  }
-}
-</script>
-
+  </script>
 
 </body>
 </html>
