@@ -28,14 +28,14 @@
 
   <script>
     // Dirección base de la API
-    const api = 'https://asistenciabackend-production-f2de.up.railway.app'; // Asegúrate de que esta URL esté correcta
+    const api = 'https://asistenciabackend-production-f2de.up.railway.app/'; // Asegúrate de que esta URL esté correcta
 
     // Cargar los alumnos
     window.onload = cargar;
 
     async function cargar() {
       try {
-        const res = await fetch(`${api}/api/alumnos`); // Cargar lista de alumnos
+        const res = await fetch(`${api}`); // Cargar lista de alumnos
         const alumnos = await res.json();
         const ul = document.getElementById('lista');
         ul.innerHTML = '';
