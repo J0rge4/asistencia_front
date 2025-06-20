@@ -31,7 +31,7 @@
   <!-- Script que maneja la consulta al backend -->
   <script>
     // Dirección base de la API (reemplázala con tu URL real si es diferente)
-    const api = 'https://asistenciabackend-production-f2de.up.railway.app';
+    const api = 'https://asistenciabackend-production-f2de.up.railway.app'; // Asegúrate de que la URL esté correcta
 
     // Función que consulta la asistencia de un alumno
     async function consultar() {
@@ -41,18 +41,12 @@
       try {
         // Hacer la solicitud al backend con la matrícula del alumno
         const res = await fetch(`${api}/api/asistencia/${mat}`);
-        
-        // Verificar si la respuesta fue exitosa
         if (!res.ok) throw new Error('No se pudo obtener los datos');
-        
-        // Convertir la respuesta a JSON
         const data = await res.json();
 
-        // Seleccionar el contenedor de resultados
         const ul = document.getElementById('resultado');
         ul.innerHTML = '';  // Limpiar resultados anteriores
 
-        // Si no hay resultados, mostrar mensaje
         if (data.length === 0) {
           ul.innerHTML = '<li>No hay registros de asistencia.</li>';
           return;
@@ -66,7 +60,6 @@
         });
 
       } catch (err) {
-        // En caso de error, mostrar mensaje al usuario
         alert('Error al consultar asistencia: ' + err.message);
       }
     }
