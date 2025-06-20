@@ -145,7 +145,7 @@
       if (!validarFecha(fecha)) return;
 
       try {
-        const res = await fetch(`https://asistenciabackend-production-f2de.up.railway.app/api/alumnos/asistencia/`);  // Cambia la URL según lo necesario
+        const res = await fetch(`${api}/asistencia/${mat}?fecha=${fecha}`);  // Cambia la URL según lo necesario
         const data = await res.json();
         const ul = document.getElementById('resultadoConsulta');
         ul.innerHTML = '';
