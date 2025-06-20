@@ -33,7 +33,7 @@
 
     async function cargar() {
       try {
-        const res = await fetch(`${api}/alumnos`);
+        const res = await fetch(`https://asistenciabackend-production-f2de.up.railway.app/api/alumnos`);
         const alumnos = await res.json();
         const ul = document.getElementById('lista');
         ul.innerHTML = '';
