@@ -31,7 +31,7 @@
   <!-- Script que maneja la consulta al backend -->
   <script>
     // Dirección base de la API (reemplázala con tu URL real si es diferente)
-    const api = 'https://asistenciabackend-production-f2de.up.railway.app/';
+    const api = 'https://asistenciabackend-production-f2de.up.railway.app';
 
     // Función que consulta la asistencia de un alumno
     async function consultar() {
@@ -39,23 +39,34 @@
       if (!mat) return alert('Escribe tu matrícula'); // validación
 
       try {
-        const res = await fetch(`${api}/api/asistencia/${mat}`);  // Asegúrate de que esta URL sea la correcta
+        // Hacer la solicitud al backend con la matrícula del alumno
+        const res = await fetch(`${api}/api/asistencia/${mat}`);
+        
+        // Verificar si la respuesta fue exitosa
         if (!res.ok) throw new Error('No se pudo obtener los datos');
+        
+        // Convertir la respuesta a JSON
         const data = await res.json();
 
+        // Seleccionar el contenedor de resultados
         const ul = document.getElementById('resultado');
-        ul.innerHTML = '';
+        ul.innerHTML = '';  // Limpiar resultados anteriores
 
+        // Si no hay resultados, mostrar mensaje
         if (data.length === 0) {
           ul.innerHTML = '<li>No hay registros de asistencia.</li>';
           return;
         }
 
-        // Agregar los resultados al ul
+        // Agregar los resultados al HTML
         data.forEach(r => {
-          ul.innerHTML += `<li>${r.fecha}: ${r.presente ? '✅ Presente' : '❌ Ausente'}</li>`;  // Aquí estaba el error
+          const li = document.createElement('li'); // Crear nuevo elemento li
+          li.textContent = `${r.fecha}: ${r.presente ? '✅ Presente' : '❌ Ausente'}`;
+          ul.appendChild(li);  // Agregar el li al ul
         });
+
       } catch (err) {
+        // En caso de error, mostrar mensaje al usuario
         alert('Error al consultar asistencia: ' + err.message);
       }
     }
