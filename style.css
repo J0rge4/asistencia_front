@@ -8,14 +8,14 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #e8f5e9;
-  color: #333;
+  background-color: #f3e5f5; /* Lila claro */
+  color: #4a148c; /* Morado oscuro */
   min-height: 100vh;
 }
 
 /* Encabezado */
 header {
-  background-color: #2e7d32;
+  background-color: #7b1fa2; /* Morado principal */
   color: white;
   padding: 1.5rem;
   text-align: center;
@@ -38,15 +38,15 @@ header {
 .container h2 {
   margin-top: 2rem;
   margin-bottom: 1rem;
-  color: #2e7d32;
+  color: #7b1fa2; /* Morado principal */
   font-size: 1.3rem;
-  border-bottom: 2px solid #c8e6c9;
+  border-bottom: 2px solid #f3e5f5; /* Lila claro */
   padding-bottom: 5px;
 }
 
 /* Botones */
 button {
-  background-color: #43a047;
+  background-color: #9c27b0; /* Morado secundario */
   color: white;
   padding: 12px 20px;
   font-size: 1rem;
@@ -58,7 +58,7 @@ button {
 }
 
 button:hover {
-  background-color: #388e3c;
+  background-color: #7b1fa2; /* Morado principal */
   transform: scale(1.03);
 }
 
@@ -76,7 +76,7 @@ input[type="date"] {
 
 input[type="text"]:focus,
 input[type="date"]:focus {
-  border-color: #66bb6a;
+  border-color: #9c27b0; /* Morado secundario */
   outline: none;
 }
 
@@ -132,4 +132,3 @@ ul#lista input[type="checkbox"] {
     padding: 10px;
   }
 }
-
