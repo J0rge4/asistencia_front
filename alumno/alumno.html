@@ -20,6 +20,9 @@
     <!-- Campo de matrícula del alumno -->
     <input type="text" id="matricula" placeholder="Tu matrícula">
 
+    <!-- Campo de fecha -->
+    <input type="date" id="fechaConsulta" placeholder="Selecciona la fecha">
+
     <!-- Botón para consultar -->
     <button onclick="consultar()">Consultar</button>
 
@@ -36,11 +39,15 @@
     // Función que consulta la asistencia de un alumno
     async function consultar() {
       const mat = document.getElementById('matricula').value.trim(); // obtiene matrícula del input
-      if (!mat) return alert('Escribe tu matrícula'); // validación
+      const fecha = document.getElementById('fechaConsulta').value;  // Obtiene la fecha del input
+
+      // Validación para asegurarse de que ambos campos estén llenos
+      if (!mat) return alert('Escribe tu matrícula');
+      if (!fecha) return alert('Selecciona una fecha');
 
       try {
-        // Hacer la solicitud al backend con la matrícula del alumno
-        const res = await fetch(`${api}/asistencia/${mat}?fecha=${fecha}`);
+        // Hacer la solicitud al backend con la matrícula del alumno y la fecha
+        const res = await fetch(`${api}/api/alumnos/asistencia/${mat}?fecha=${fecha}`);
         if (!res.ok) throw new Error('No se pudo obtener los datos');
         const data = await res.json();
 
