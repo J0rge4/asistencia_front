@@ -13,25 +13,29 @@
   <div class="container">
     <h2>Registrar Alumno</h2>
     <input type="text" id="nombre" placeholder="Nombre del alumno">
-    <input type="text" id="matricula" placeholder="Matrícula">
+    <input type="text" id="matricula" placeholder="Matrícula" maxlength="8" oninput="validarMatricula()">
     <button onclick="registrar()">Registrar</button>
+
     <h2>Pase de Lista</h2>
     <input type="date" id="fecha">
     <ul id="lista"></ul>
     <button onclick="pasarLista()">Guardar Asistencia</button>
+
     <h2>Eliminar Alumno</h2>
     <input type="text" id="matEliminar" placeholder="Matrícula del alumno">
     <button onclick="eliminar()">Eliminar</button>
   </div>
-  <script>
-    // Asegúrate de que 'api' tenga la URL correcta, incluyendo el prefijo '/api/alumnos' si es necesario.
-    const api = 'https://asistenciabackend-production-f2de.up.railway.app/api/alumnos'; // Ejemplo
 
+  <script>
+    // Dirección base de la API
+    const api = 'https://asistenciabackend-production-f2de.up.railway.app/api/alumnos'; // Asegúrate de que esta URL esté correcta
+
+    // Cargar los alumnos
     window.onload = cargar;
 
     async function cargar() {
       try {
-        const res = await fetch(`${api}`); // URL correcta para obtener alumnos
+        const res = await fetch(`${api}`); // Cargar lista de alumnos
         const alumnos = await res.json();
         const ul = document.getElementById('lista');
         ul.innerHTML = '';
@@ -49,63 +53,82 @@
       }
     }
 
+    // Validar que solo se ingrese números en la matrícula
+    function validarMatricula() {
+      const matricula = document.getElementById('matricula');
+      const valor = matricula.value;
+      matricula.value = valor.replace(/[^0-9]/g, ''); // Elimina caracteres no numéricos
+    }
+
+    // Registrar un nuevo alumno
     async function registrar() {
       const nombre = document.getElementById('nombre').value.trim();
       const matricula = document.getElementById('matricula').value.trim();
+
+      // Verificar que los campos no estén vacíos
       if (!nombre || !matricula) return alert('Faltan datos');
+
+      // Validar que la matrícula tenga exactamente 8 dígitos
+      if (matricula.length !== 8) return alert('La matrícula debe tener 8 dígitos');
+
       try {
-        const res = await fetch(`${api}/registrar`, { // URL corregida para registrar
+        const res = await fetch(`${api}/registrar`, { // Ruta para registrar alumno
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nombre, matricula })
         });
         const data = await res.json();
         if (data.success) {
-          alert('Registrado');
-          cargar();
+          alert('Alumno registrado');
+          cargar(); // Recargar la lista de alumnos
         } else {
-          alert('Error al registrar: ' + data.error); // Mostrar mensaje de error del servidor
+          alert('Error al registrar: ' + data.error);
         }
       } catch (err) {
         alert('Error de conexión: ' + err.message);
       }
     }
 
+    // Guardar la asistencia
     async function pasarLista() {
       const fecha = document.getElementById('fecha').value;
       if (!fecha) return alert('Selecciona la fecha');
+
       const checks = document.querySelectorAll('#lista input[type=checkbox]');
       const lista = Array.from(checks).map(chk => ({
         matricula: chk.dataset.matricula,
         presente: chk.checked
       }));
+
       try {
-        const res = await fetch(`${api}/pasarLista`, { // URL corregida para pasar lista
+        const res = await fetch(`${api}/pasarLista`, { // Ruta para pasar lista
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ lista, fecha })
         });
         const data = await res.json();
         if (data.success) alert('Asistencia guardada');
-        else alert('Error al guardar: ' + data.error); // Mostrar mensaje de error del servidor
+        else alert('Error al guardar: ' + data.error);
       } catch (err) {
         alert('Error al guardar asistencia: ' + err.message);
       }
     }
 
+    // Eliminar un alumno
     async function eliminar() {
       const mat = document.getElementById('matEliminar').value.trim();
       if (!mat) return alert('Ingresa una matrícula');
+
       try {
-        const res = await fetch(`${api}/${mat}`, { // URL corregida para eliminar
+        const res = await fetch(`${api}/${mat}`, { // Ruta para eliminar un alumno
           method: 'DELETE'
         });
         const data = await res.json();
         if (data.success) {
           alert('Alumno eliminado');
-          cargar();
+          cargar(); // Recargar la lista de alumnos
         } else {
-          alert('Error al eliminar: ' + data.error); // Mostrar mensaje de error del servidor
+          alert('Error al eliminar: ' + data.error);
         }
       } catch (err) {
         alert('Error al eliminar alumno: ' + err.message);
@@ -114,4 +137,5 @@
   </script>
 </body>
 </html>
+
 
