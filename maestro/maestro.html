@@ -72,7 +72,7 @@
       if (matricula.length !== 8) return alert('La matrícula debe tener 8 dígitos');
 
       try {
-        const res = await fetch(`${api}/registrar`, { // Ruta para registrar alumno
+        const res = await fetch(`${api}/alumnos/registrar`, { // Ruta para registrar alumno
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nombre, matricula })
