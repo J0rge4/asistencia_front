@@ -54,6 +54,7 @@
         const ul = document.getElementById('resultado');
         ul.innerHTML = '';  // Limpiar resultados anteriores
 
+        // Si no hay resultados, mostrar un mensaje
         if (data.length === 0) {
           ul.innerHTML = '<li>No hay registros de asistencia.</li>';
           return;
@@ -74,3 +75,4 @@
 
 </body>
 </html>
+
