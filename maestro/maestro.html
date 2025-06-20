@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Panel del Maestro</title>
   <link rel="stylesheet" href="../style.css">
+  <!-- Importa FontAwesome para iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 <body>
   <header>Panel del Maestro</header>
   <div style="margin: 1rem;">
@@ -14,31 +18,30 @@
     <h2>Registrar Alumno</h2>
     <input type="text" id="nombre" placeholder="Nombre del alumno">
     <input type="text" id="matricula" placeholder="Matrícula" maxlength="8" oninput="validarMatricula()">
-    <button onclick="registrar()">Registrar</button>
+    <button onclick="registrar()"><i class="fas fa-user-plus"></i><span>Registrar Alumno</span></button>
 
     <h2>Pase de Lista</h2>
     <input type="date" id="fecha">
     <ul id="lista"></ul>
-    <button onclick="pasarLista()">Guardar Asistencia</button>
+    <button onclick="pasarLista()"><i class="fas fa-check-circle"></i><span>Guardar Asistencia</span></button>
 
     <h2>Consultar Asistencia</h2>
     <input type="text" id="matConsulta" placeholder="Matrícula del alumno">
     <input type="date" id="fechaConsulta">
-    <button onclick="consultarAsistencia()">Consultar</button>
+    <button onclick="consultarAsistencia()"><i class="fas fa-search"></i><span>Consultar</span></button>
     <ul id="resultadoConsulta"></ul>
 
     <h2>Eliminar Alumno</h2>
     <input type="text" id="matEliminar" placeholder="Matrícula del alumno">
-    <button onclick="eliminar()">Eliminar</button>
+    <button onclick="eliminar()"><i class="fas fa-trash"></i><span>Eliminar</span></button>
   </div>
 
   <script>
-    // Dirección base de la API
     const api = 'https://asistenciabackend-production-f2de.up.railway.app/api/alumnos';  // Asegúrate de que esta URL esté correcta
 
-    // Cargar los alumnos
     window.onload = cargar;
 
+    // Cargar los alumnos
     async function cargar() {
       try {
         const res = await fetch(`${api}`); // URL correcta para obtener alumnos
@@ -186,5 +189,7 @@
     }
   </script>
 </body>
+
 </html>
+
 

@@ -1,59 +1,36 @@
-<!-- Página para elegir Maestro o Alumno -->
-<!DOCTYPE html> <!-- Define que este documento es HTML5 -->
-<html lang="es"> <!-- Define el idioma como español -->
+<!DOCTYPE html>
+<html lang="es">
 
 <head>
-  <meta charset="UTF-8"> <!-- Usa codificación UTF-8 -->
-  <title>Sistema de Asistencia</title> <!-- Título que aparece en la pestaña del navegador -->
-
-  <!-- Vincula el archivo de estilos CSS principal -->
-  <link rel="stylesheet" href="style.css">
-
-  <!-- Vincula el archivo manifest.json (para PWA) -->
-  <link rel="manifest" href="manifest.json">
-
-  <!-- Estilos adicionales para centrar los botones -->
-  <style>
-    .selector {
-      display: flex; /* Usa flexbox */
-      flex-direction: column; /* Coloca los elementos uno debajo del otro */
-      align-items: center; /* Centra horizontalmente */
-      gap: 1.5rem; /* Espaciado entre botones */
-      padding: 4rem 0; /* Espaciado vertical */
-    }
-
-    .selector button {
-      width: 200px; /* Ancho fijo de los botones */
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Sistema de Asistencia</title>
+  <link rel="stylesheet" href="style.css"> <!-- Estilo compartido -->
+  <link rel="manifest" href="manifest.json"> <!-- Para PWA -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Importar iconos -->
 </head>
 
 <body>
-  <!-- Título principal en la parte superior -->
   <header>Sistema de Asistencia</header>
 
-  <!-- Contenedor principal de selección -->
   <div class="container selector">
     <h2>¿Quién eres?</h2>
 
     <!-- Botón que lleva al panel del maestro -->
-    <button onclick="location.href='maestro/maestro.html'">👨‍🏫 Maestro</button>
+    <button onclick="location.href='maestro/maestro.html'">
+      <i class="fas fa-chalkboard-teacher"></i> Maestro
+    </button>
 
     <!-- Botón que lleva al panel del alumno -->
-    <button onclick="location.href='alumno/alumno.html'">👨‍🎓 Alumno</button>
+    <button onclick="location.href='alumno/alumno.html'">
+      <i class="fas fa-user-graduate"></i> Alumno
+    </button>
   </div>
 
-  <!-- Script para registrar el Service Worker y habilitar PWA -->
   <script>
-    // Verifica si el navegador soporta service workers
-    if ('serviceWorker' in navigator) {
-      // Espera a que la ventana cargue para registrar el SW
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('serviceWorker.js') // Intenta registrar el archivo
-          .then(() => console.log("✅ Service Worker registrado")) // Mensaje si sale bien
-          .catch(err => console.error("❌ Error al registrar SW", err)); // Mensaje si falla
-      });
-    }
+    // Aquí puedes agregar cualquier lógica si necesitas algo más
   </script>
+
 </body>
+
 </html>
+
