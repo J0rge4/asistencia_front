@@ -69,7 +69,7 @@ button {
   background-color: #9c27b0; /* Morado secundario */
   color: white;
   padding: 12px 20px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -78,11 +78,12 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 button:hover {
   background-color: #7b1fa2; /* Morado principal */
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
 button:active {
@@ -92,10 +93,22 @@ button:active {
 /* Botones con iconos */
 button i {
   margin-right: 8px;
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+button:hover i {
+  transform: rotate(20deg); /* Gira el icono al pasar el mouse */
 }
 
 button span {
   font-size: 1.2rem;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+button:hover span {
+  transform: scale(1.1); /* Aumenta el texto en el hover */
 }
 
 /* Inputs */
@@ -205,5 +218,4 @@ ul#lista input[type="checkbox"] {
     opacity: 1;
   }
 }
-
 
