@@ -40,7 +40,7 @@
 
       try {
         // Hacer la solicitud al backend con la matrícula del alumno
-        const res = await fetch(`${api}/api/asistencia/${mat}`);
+        const res = await fetch(`${api}/asistencia/${mat}?fecha=${fecha}`);
         if (!res.ok) throw new Error('No se pudo obtener los datos');
         const data = await res.json();
 
