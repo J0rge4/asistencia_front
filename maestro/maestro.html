@@ -21,19 +21,27 @@
     <ul id="lista"></ul>
     <button onclick="pasarLista()">Guardar Asistencia</button>
 
+    <h2>Consultar Asistencia</h2>
+    <input type="text" id="matConsulta" placeholder="Matrícula del alumno">
+    <input type="date" id="fechaConsulta">
+    <button onclick="consultarAsistencia()">Consultar</button>
+    <ul id="resultadoConsulta"></ul>
+
     <h2>Eliminar Alumno</h2>
     <input type="text" id="matEliminar" placeholder="Matrícula del alumno">
     <button onclick="eliminar()">Eliminar</button>
   </div>
 
   <script>
-    const api = 'https://asistenciabackend-production-f2de.up.railway.app/api';
+    // Dirección base de la API
+    const api = 'https://asistenciabackend-production-f2de.up.railway.app/api/alumnos';  // Asegúrate de que esta URL esté correcta
 
+    // Cargar los alumnos
     window.onload = cargar;
 
     async function cargar() {
       try {
-        const res = await fetch(`https://asistenciabackend-production-f2de.up.railway.app/api/alumnos`);
+        const res = await fetch(`${api}`); // URL correcta para obtener alumnos
         const alumnos = await res.json();
         const ul = document.getElementById('lista');
         ul.innerHTML = '';
@@ -51,19 +59,36 @@
       }
     }
 
+    // Validar que solo se ingrese números en la matrícula
     function validarMatricula() {
       const matricula = document.getElementById('matricula');
-      matricula.value = matricula.value.replace(/[^0-9]/g, '');
+      const valor = matricula.value;
+      matricula.value = valor.replace(/[^0-9]/g, ''); // Elimina caracteres no numéricos
     }
 
+    // Validar que la fecha no sea futura
+    function validarFecha(fecha) {
+      const fechaHoy = new Date().toISOString().split('T')[0]; // Obtener la fecha actual en formato YYYY-MM-DD
+      if (fecha > fechaHoy) {
+        alert('No puedes seleccionar una fecha futura');
+        return false;
+      }
+      return true;
+    }
+
+    // Registrar un nuevo alumno
     async function registrar() {
       const nombre = document.getElementById('nombre').value.trim();
       const matricula = document.getElementById('matricula').value.trim();
+
+      // Verificar que los campos no estén vacíos
       if (!nombre || !matricula) return alert('Faltan datos');
+
+      // Validar que la matrícula tenga exactamente 8 dígitos
       if (matricula.length !== 8) return alert('La matrícula debe tener 8 dígitos');
 
       try {
-        const res = await fetch(`${api}/alumnos/registrar`, {
+        const res = await fetch(`${api}/registrar`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nombre, matricula })
@@ -71,7 +96,7 @@
         const data = await res.json();
         if (data.success) {
           alert('Alumno registrado');
-          cargar();
+          cargar(); // Recargar la lista de alumnos
         } else {
           alert('Error al registrar: ' + data.error);
         }
@@ -80,9 +105,13 @@
       }
     }
 
+    // Guardar la asistencia
     async function pasarLista() {
       const fecha = document.getElementById('fecha').value;
       if (!fecha) return alert('Selecciona la fecha');
+
+      // Verificar que la fecha no sea futura
+      if (!validarFecha(fecha)) return;
 
       const checks = document.querySelectorAll('#lista input[type=checkbox]');
       const lista = Array.from(checks).map(chk => ({
@@ -91,7 +120,7 @@
       }));
 
       try {
-        const res = await fetch(`${api}/alumnos/pasarLista`, {
+        const res = await fetch(`${api}/pasarLista`, {  // URL corregida para pasar lista
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ lista, fecha })
@@ -104,18 +133,50 @@
       }
     }
 
+    // Consultar la asistencia de un alumno
+    async function consultarAsistencia() {
+      const mat = document.getElementById('matConsulta').value.trim();
+      const fecha = document.getElementById('fechaConsulta').value;
+
+      // Verificar que la matrícula y la fecha no estén vacías
+      if (!mat || !fecha) return alert('Por favor, ingresa matrícula y fecha.');
+
+      // Verificar que la fecha no sea futura
+      if (!validarFecha(fecha)) return;
+
+      try {
+        const res = await fetch(`${api}/asistencia/${mat}?fecha=${fecha}`);  // Cambia la URL según lo necesario
+        const data = await res.json();
+        const ul = document.getElementById('resultadoConsulta');
+        ul.innerHTML = '';
+
+        if (data.length === 0) {
+          ul.innerHTML = '<li>No hay registros de asistencia para esta fecha.</li>';
+          return;
+        }
+
+        // Mostrar la asistencia del alumno
+        data.forEach(r => {
+          ul.innerHTML += `<li>${r.fecha}: ${r.presente ? '✅ Presente' : '❌ Ausente'}</li>`;
+        });
+      } catch (err) {
+        alert('Error al consultar asistencia: ' + err.message);
+      }
+    }
+
+    // Eliminar un alumno
     async function eliminar() {
       const mat = document.getElementById('matEliminar').value.trim();
       if (!mat) return alert('Ingresa una matrícula');
 
       try {
-        const res = await fetch(`${api}/alumnos/${mat}`, {
+        const res = await fetch(`${api}/${mat}`, {  // URL corregida para eliminar
           method: 'DELETE'
         });
         const data = await res.json();
         if (data.success) {
           alert('Alumno eliminado');
-          cargar();
+          cargar(); // Recargar la lista de alumnos
         } else {
           alert('Error al eliminar: ' + data.error);
         }
@@ -126,3 +187,4 @@
   </script>
 </body>
 </html>
+
