@@ -91,7 +91,7 @@
       }));
 
       try {
-        const res = await fetch(`${api}/asistencia`, {
+        const res = await fetch(`${api}/pasarLista`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ lista, fecha })
