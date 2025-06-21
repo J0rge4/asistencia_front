@@ -49,8 +49,11 @@
       if (!mat || !fecha) return alert('Escribe tu matrícula y selecciona una fecha'); // Validación
 
       try {
+        // Asegurarse de que la fecha esté en el formato adecuado
+        const fechaCorrecta = new Date(fecha).toISOString().split('T')[0];
+
         // Hacer la solicitud al backend con la matrícula del alumno y la fecha
-        const res = await fetch(`${api}/api/alumnos/asistencia/${mat}?fecha=${fecha}`);
+        const res = await fetch(`${api}/api/alumnos/asistencia/${mat}?fecha=${fechaCorrecta}`);
         if (!res.ok) throw new Error('No se pudo obtener los datos');
         const data = await res.json();
 
@@ -85,5 +88,6 @@
 </body>
 
 </html>
+
 
 
