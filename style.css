@@ -123,7 +123,7 @@ ul#lista input[type="checkbox"] {
 }
 
 /* Para pantallas medianas (tabletas) */
-@media (max-width: 1000px) {
+@media (max-width: 1023px) {
   .container {
     padding: 1.5rem;
   }
@@ -133,7 +133,7 @@ ul#lista input[type="checkbox"] {
 }
 
 /* Para pantallas pequeñas (móviles) */
-@media (max-width: 500px) {
+@media (max-width: 767px) {
   .container {
     padding: 1rem;
     max-width: 90%; /* Ajusta el contenedor para pantallas más pequeñas */
@@ -187,4 +187,3 @@ body {
   color: #4a148c;
   animation: fadeIn 1s ease-out;
 }
-

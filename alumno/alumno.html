@@ -1,65 +1,83 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Panel del Alumno</title>
   <link rel="stylesheet" href="../style.css"> <!-- Estilo compartido -->
-  <!-- Importa FontAwesome -->
+  <!-- Importa FontAwesome para iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 <body>
   <header>Panel del Alumno</header>
 
-  <div style="margin: 1rem;">
-    <button onclick="window.location.href='../index.html'" style="background-color:#c62828; color:white; padding:10px;">⏻ Salir</button>
-  </div>
-
+  <!-- Contenedor principal -->
   <div class="container">
     <h2>Consultar Asistencia</h2>
 
-    <input type="text" id="matricula" placeholder="Tu matrícula">
-    <input type="date" id="fechaConsulta" placeholder="Selecciona la fecha">
+    <!-- Campo de matrícula del alumno -->
+    <input type="text" id="matricula" placeholder="Tu matrícula" oninput="validarMatricula()">
+
+    <!-- Botón para consultar -->
     <button onclick="consultar()"><i class="fas fa-search"></i><span>Consultar</span></button>
 
+    <!-- Resultados de asistencia -->
     <h3>Resultados</h3>
     <ul id="resultado"></ul>
   </div>
 
+  <!-- Botón para regresar al menú principal -->
+  <div class="salir">
+    <button onclick="window.location.href='../index.html'" style="background-color:#c62828; color:white; padding:10px;">⏻ Salir</button>
+  </div>
+
+  <!-- Script que maneja la consulta al backend -->
   <script>
-    const api = 'https://asistenciabackend-production-f2de.up.railway.app'; 
+    // Dirección base de la API
+    const api = 'https://asistenciabackend-production-f2de.up.railway.app'; // Asegúrate de que la URL esté correcta
 
+    // Función que consulta la asistencia de un alumno
     async function consultar() {
-      const mat = document.getElementById('matricula').value.trim(); 
-      const fecha = document.getElementById('fechaConsulta').value;  
-
-      if (!mat) return alert('Escribe tu matrícula');
-      if (!fecha) return alert('Selecciona una fecha');
+      const mat = document.getElementById('matricula').value.trim(); // obtiene matrícula del input
+      if (!mat) return alert('Escribe tu matrícula'); // validación
 
       try {
-        const res = await fetch(`${api}/api/alumnos/asistencia/${mat}?fecha=${fecha}`);
+        // Hacer la solicitud al backend con la matrícula del alumno
+        const res = await fetch(`${api}/api/asistencia/${mat}`);
         if (!res.ok) throw new Error('No se pudo obtener los datos');
         const data = await res.json();
 
         const ul = document.getElementById('resultado');
-        ul.innerHTML = '';
+        ul.innerHTML = '';  // Limpiar resultados anteriores
 
         if (data.length === 0) {
           ul.innerHTML = '<li>No hay registros de asistencia.</li>';
           return;
         }
 
+        // Agregar los resultados al HTML
         data.forEach(r => {
-          const li = document.createElement('li'); 
+          const li = document.createElement('li'); // Crear nuevo elemento li
           li.textContent = `${r.fecha}: ${r.presente ? '✅ Presente' : '❌ Ausente'}`;
-          ul.appendChild(li);
+          ul.appendChild(li);  // Agregar el li al ul
         });
 
       } catch (err) {
         alert('Error al consultar asistencia: ' + err.message);
       }
     }
+
+    // Validar que solo se ingrese números en la matrícula
+    function validarMatricula() {
+      const matricula = document.getElementById('matricula');
+      const valor = matricula.value;
+      matricula.value = valor.replace(/[^0-9]/g, ''); // Elimina caracteres no numéricos
+    }
   </script>
+
 </body>
+
 </html>
 
 
