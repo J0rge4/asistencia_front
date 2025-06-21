@@ -12,6 +12,11 @@
 <body>
   <header>Panel del Alumno</header>
 
+   <!-- Botón para regresar al menú principal -->
+  <div class="salir">
+    <button onclick="window.location.href='../index.html'" style="background-color:#c62828; color:white; padding:10px;">⏻ Salir</button>
+  </div>
+
   <!-- Contenedor principal -->
   <div class="container">
     <h2>Consultar Asistencia</h2>
@@ -27,10 +32,6 @@
     <ul id="resultado"></ul>
   </div>
 
-  <!-- Botón para regresar al menú principal -->
-  <div class="salir">
-    <button onclick="window.location.href='../index.html'" style="background-color:#c62828; color:white; padding:10px;">⏻ Salir</button>
-  </div>
 
   <!-- Script que maneja la consulta al backend -->
   <script>
