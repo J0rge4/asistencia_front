@@ -19,6 +19,9 @@
     <!-- Campo de matrícula del alumno -->
     <input type="text" id="matricula" placeholder="Tu matrícula" oninput="validarMatricula()">
 
+    <!-- Campo de fecha -->
+    <input type="date" id="fechaConsulta">
+
     <!-- Botón para consultar -->
     <button onclick="consultar()"><i class="fas fa-search"></i><span>Consultar</span></button>
 
@@ -40,11 +43,14 @@
     // Función que consulta la asistencia de un alumno
     async function consultar() {
       const mat = document.getElementById('matricula').value.trim(); // obtiene matrícula del input
-      if (!mat) return alert('Escribe tu matrícula'); // validación
+      const fecha = document.getElementById('fechaConsulta').value; // obtiene la fecha del input
+
+      // Validar que matrícula y fecha no estén vacíos
+      if (!mat || !fecha) return alert('Escribe tu matrícula y selecciona una fecha'); // Validación
 
       try {
-        // Hacer la solicitud al backend con la matrícula del alumno
-        const res = await fetch(`${api}/api/asistencia/${mat}`);
+        // Hacer la solicitud al backend con la matrícula del alumno y la fecha
+        const res = await fetch(`${api}/api/alumnos/asistencia/${mat}?fecha=${fecha}`);
         if (!res.ok) throw new Error('No se pudo obtener los datos');
         const data = await res.json();
 
@@ -52,7 +58,7 @@
         ul.innerHTML = '';  // Limpiar resultados anteriores
 
         if (data.length === 0) {
-          ul.innerHTML = '<li>No hay registros de asistencia.</li>';
+          ul.innerHTML = '<li>No hay registros de asistencia para esta fecha.</li>';
           return;
         }
 
